@@ -3,7 +3,7 @@ from openai import OpenAI
 
 app = Flask(__name__)
 import os
-client = OpenAI(api_key="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", base_url="https://openrouter.ai/api/v1")  # Replace with your key
+client = OpenAI(api_key=os.environ.get("OPENROUTER_API_KEY"), base_url="https://openrouter.ai/api/v1")
 
 # Store chat history per session (simple version)
 chat_histories = {}
@@ -26,8 +26,7 @@ def chat():
     history.append({"role": "user", "content": user_msg})
 
     response = client.chat.completions.create(
-        model="openai/gpt-4o-mini"
-,
+        model="openai/gpt-4o-mini",
         messages=history
     )
 
