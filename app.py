@@ -4,9 +4,16 @@ from openai import OpenAI
 app = Flask(__name__)
 import os
 client = OpenAI(api_key=os.environ.get("OPENROUTER_API_KEY"), base_url="https://openrouter.ai/api/v1")
-@app.route("/")
+@app.route("/", methods=["GET", "HEAD"])
 def home():
-    return open("index.html").read()
+    if request.method == 'GET':
+        # Full page content for real browser visits
+        return render_template("index.html")
+
+    # For HEAD requests (health checks / bots): 
+    # just return the status, no body needed
+    return "", 200
+
 
 # Store chat history per session (simple version)
 chat_histories = {}
