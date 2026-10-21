@@ -4,6 +4,9 @@ from openai import OpenAI
 app = Flask(__name__)
 import os
 client = OpenAI(api_key=os.environ.get("OPENROUTER_API_KEY"), base_url="https://openrouter.ai/api/v1")
+@app.route("/")
+def home():
+    return open("index.html").read()
 
 # Store chat history per session (simple version)
 chat_histories = {}
